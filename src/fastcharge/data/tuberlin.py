@@ -9,8 +9,7 @@ One piece per drive cycle, starting at the end of that rest: a full, relaxed sta
 The 1 min rest at the start of the log is not used
 """
 
-from .config import TUBERLIN_CYCLES
-
+from fastcharge.config import TUBERLIN_CYCLES
 
 # Helpers
 
