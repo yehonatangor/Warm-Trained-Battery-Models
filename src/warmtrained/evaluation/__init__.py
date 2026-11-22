@@ -1,0 +1,1 @@
+"""Evaluation: 20 min window and free-run voltage and temperature RMSE, moving-block bootstrap comparison"""

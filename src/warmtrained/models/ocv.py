@@ -5,7 +5,7 @@ Open-circuit voltage curve U_oc(SOC) at 25 degC, one per cell type, shared by al
 3. Average the two branches where both exist (cancels most overpotential and hysteresis)
 4. Fill empty bins, smooth (5-bin running median), force non-decreasing in SOC
 Source rows: C/20 tests (B1, B3, B5), 0.1C discharges (B2), rests and drive pauses (B4, a pseudo-OCV)
-Its error is a shared bias across all models of the cell (proposal, Section 3)
+Its error is a shared bias across all models of the cell
 """
 
 import json
