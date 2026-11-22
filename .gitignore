@@ -1,6 +1,6 @@
 # Data and outputs
 # Raw data is downloaded separately (see README)
-data/
+/data/
 results/
 *.zip
 
