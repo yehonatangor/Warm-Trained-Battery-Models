@@ -11,7 +11,7 @@ A test is split into segments at real gaps, nothing is filled across a segment b
 import numpy as np
 import pandas as pd
 
-from fastcharge import config as cfg
+from warmtrained import config as cfg
 
 
 def insert_step_starts(df: pd.DataFrame) -> pd.DataFrame:

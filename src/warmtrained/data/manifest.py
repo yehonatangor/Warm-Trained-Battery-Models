@@ -2,7 +2,7 @@
 Split assignment for the manifest
 """
 
-from fastcharge import config as cfg
+from warmtrained import config as cfg
 
 MIXED_TYPES = {"Mixed cycle"}  # mixed cycles reuse parts of the held-out profiles, so they are excluded
 

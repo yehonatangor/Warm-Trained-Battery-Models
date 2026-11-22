@@ -20,8 +20,8 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 
-from fastcharge import config as cfg
-from fastcharge.data import io
+from warmtrained import config as cfg
+from warmtrained.data import io
 
 START_FULL_V = 4.05
 START_FULL_UNDER_LOAD_V = 3.95

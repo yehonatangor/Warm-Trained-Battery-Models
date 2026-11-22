@@ -19,8 +19,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))  # runs wit
 import numpy as np
 import pandas as pd
 
-from fastcharge import config as cfg
-from fastcharge.data import clean, io, resample, tuberlin
+from warmtrained import config as cfg
+from warmtrained.data import clean, io, resample, tuberlin
 
 PROC = cfg.DATA_PROCESSED
 TESLA_DRIVES = ("REORDERED", "HWCUST", "HWGRADE")

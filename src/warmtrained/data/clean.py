@@ -6,8 +6,8 @@ Each rule returns a boolean mask of rows to keep (or a flag), so the pipeline ca
 import numpy as np
 import pandas as pd
 
-from fastcharge import config as cfg
-from fastcharge.data import tuberlin
+from warmtrained import config as cfg
+from warmtrained.data import tuberlin
 
 # Helpers
 

@@ -13,7 +13,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from fastcharge import config as cfg
+from warmtrained import config as cfg
 
 TEST_SPLITS = {"test", "fresh", "trise"}
 

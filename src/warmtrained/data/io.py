@@ -11,7 +11,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from fastcharge.config import CELLS, DATA_RAW
+from warmtrained.config import CELLS, DATA_RAW
 
 logger = logging.getLogger(__name__)
 

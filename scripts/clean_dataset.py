@@ -22,8 +22,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))  # runs wit
 import numpy as np
 import pandas as pd
 
-from fastcharge import config as cfg
-from fastcharge.data import clean, io, manifest, resample, soc, tuberlin
+from warmtrained import config as cfg
+from warmtrained.data import clean, io, manifest, resample, soc, tuberlin
 
 TRISE_TYPES = {"US06", "HWFET", "UDDS", "LA92", "NN", "Mixed cycle"}  # drive tests kept from the B6 Trise folders
 AMBIENT_MEASURED = ("soaked_rest", "log_rest_end", "first_temperature")  # sources a filled ambient can borrow from
