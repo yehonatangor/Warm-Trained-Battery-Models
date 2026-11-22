@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 
 from fastcharge import config as cfg
-
+from fastcharge.data import tuberlin
 
 # Helpers
 
@@ -149,6 +149,37 @@ def setpoint_channel_valid(df: pd.DataFrame, t_nominal: float) -> bool:
 
 def label_mismatch(t_soaked: float, t_nominal: float) -> bool:
     # True when a test never started at its folder temperature:
-    # the soaked rest temperature before the test (see clean_dataset.ambient) is more than LABEL_BAND_K off
+    # the soaked rest temperature before the test (see ambient) is more than LABEL_BAND_K off
     # Self-heating under load does not count, so a fast cold discharge that warms the cell is kept
     return bool(np.isfinite(t_soaked) and abs(t_soaked - t_nominal) > cfg.LABEL_BAND_K)
+
+# Ambient temperature
+
+def ambient(df: pd.DataFrame, nominal_ah: float):
+    # Ambient of a test and its source:
+    # soaked_rest: median cell temperature over the rest rows before the first current above C/10
+    # first_temperature: the first temperature, when the test starts under load
+    # none: no temperature in the file (B2 cell 791)
+    T, I = df["T"].values, df.I.values
+    loaded = np.abs(I) > nominal_ah / 10
+    first_load = int(np.argmax(loaded)) if loaded.any() else len(df)
+    soak = T[:first_load][np.abs(I[:first_load]) < cfg.REST_CURRENT_A]
+    if np.isfinite(soak).any():
+        return float(np.nanmedian(soak)), "soaked_rest"
+
+    finite = T[np.isfinite(T)]
+    if len(finite):
+        return float(finite[0]), "first_temperature"
+    return float("nan"), "none"
+
+
+def log_rest_temperature(df: pd.DataFrame) -> float:
+    # B4: median cell temperature over the last 10 min of every rest of at least 1.9 h in one log
+    # (cell soaked in the chamber after each charge), one value per log, same quantity as soaked_rest
+    temps = []
+    for cmd, a, b in tuberlin.runs(df.cmd):
+        g = df.iloc[a:b]
+        if cmd == "Pause" and g.t.iloc[-1] - g.t.iloc[0] >= 1.9 * 3600:
+            last_10_min = g.t.values >= g.t.iloc[-1] - 600
+            temps.append(float(np.nanmedian(g["T"].values[last_10_min])))
+    return float(np.median(temps)) if temps else float("nan")

@@ -8,16 +8,20 @@ Anchors are only full states reached at ANCHOR_MIN_T_C or warmer, since a cold C
 TU Berlin lowers the temperature limit (its C/50 CV ends fall at most 0.4 % SOC short of full at 5 degC)
 Rows before the first anchor are counted backwards from it
 Training files: the closure error at each new anchor is spread linearly back to the previous one (no SOC jumps)
-Select and test files: the count only runs forward
+Validation and test files: the count only runs forward
 After an unlogged gap SOC is NaN until the next anchor
 Q_ref is measured warm, never at a test temperature: a 25 degC slow-discharge capacity per cell type,
-the 25 degC 1C capacity (TU Berlin), or each Tesla 2170 cell's 40 degC C/20 capacity per stage (clean_dataset.stage_capacity)
+the 25 degC 1C capacity (TU Berlin), or each Tesla 2170 cell's 40 degC C/20 capacity per stage (stage_capacity)
 """
+
+import re
+from datetime import datetime
 
 import numpy as np
 import pandas as pd
 
 from fastcharge import config as cfg
+from fastcharge.data import io
 
 START_FULL_V = 4.05
 START_FULL_UNDER_LOAD_V = 3.95
@@ -120,3 +124,105 @@ def slow_discharge_capacity(df: pd.DataFrame, i_max_a: float) -> float:
 
     dt = np.clip(np.diff(df.t.values[a:b + 1]), 0, cfg.MAX_DT_COUNT_S)  # one fewer step if the file ends discharging
     return float(-np.sum(I[a:a + len(dt)] * dt) / 3600.0)
+
+# Reference capacity (Q_ref), never measured at a test temperature
+
+TESLA_STAGES = [40, 25, 10, 0, -10, -20]  # B5 test order, hot to cold
+
+
+def file_time(name):
+    # Start time in a B5 file name (MM-DD-YY_HH.MM), None if there is none
+    m = re.search(r"(\d\d-\d\d-\d\d)_(\d\d)\.(\d\d)", name)
+    if not m:
+        return None
+    return datetime.strptime(f"{m.group(1)} {m.group(2)}:{m.group(3)}", "%m-%d-%y %H:%M")
+
+
+def longest_slow_discharge(d, nominal_ah):
+    # Charge removed in the longest continuous slow discharge [Ah]
+    # C/30 or C/22 on these small LFP cells is below REST_CURRENT_A, so a lower threshold is used
+    I = d.I.values
+    dis = (I < -0.005) & (I > -0.2 * nominal_ah)
+    edges = np.flatnonzero(np.diff(np.r_[0, dis.astype(int), 0]))
+    a, b = max(zip(edges[::2], edges[1::2]), key=lambda ab: ab[1] - ab[0])
+    dt = np.clip(np.diff(d.t.values[a:b]), 0, cfg.MAX_DT_COUNT_S)
+    return float(-np.sum(I[a:b - 1] * dt) / 3600.0)
+
+
+def reference_capacity(cell, meta):
+    # B1, B3, B6, B7: the 25 degC C/20 discharge
+    # B2: median 0.1C discharge at 25 degC
+    # B4: median 1C discharge of the three 25 degC capacity tests (the only capacity tests in the set)
+    # B5: {"unit|T": {"Ah", "start"}}, each cell's 40 degC C/20 discharge at the start of each stage (see stage_capacity)
+    # B8, B9: slow discharge of the 25 degC OCV test (B8: C/30 script 1, B9: each cell's low-current test)
+    root = cfg.DATA_RAW / meta["root"]
+    nominal = meta["nominal_ah"]
+    slow = 0.2 * nominal  # largest current of a slow discharge
+
+    if cell in ("A123_26650", "CALCE_A123"):
+        files = [f for f in sorted(root.glob(meta["q_ref_glob"])) if not f.name.startswith("~$")]
+        return float(np.median([longest_slow_discharge(io.read_arbin(f), nominal) for f in files]))
+
+    if cell == "Panasonic18650PF":
+        f = next(root.glob(meta["q_ref_glob"]))
+        return slow_discharge_capacity(io.read_panasonic_mat(f), i_max_a=slow)
+
+    if cell == "Tesla2170":
+        caps = {}
+        for f in sorted(root.glob("*/*/*/2_40C_Discharge*.mat")):
+            unit, stage = f.parts[-4], int(f.parts[-3][:-1])  # stage folder "40C" -> 40
+            ah = slow_discharge_capacity(io.read_tesla_mat(f), i_max_a=slow)
+            caps[f"{unit}|{stage}"] = {"Ah": ah, "start": file_time(f.name).isoformat()}
+        return caps
+
+    if cell == "TUBerlinM50LT":
+        caps = {}
+        for f in sorted(root.glob(meta["capacity_glob"])):
+            d = io.read_basytec_txt(f)
+            caps[f.name[:6].upper()] = slow_discharge_capacity(d, i_max_a=1.5 * nominal)  # 1C
+        return {"Ah": float(np.median(list(caps.values()))), "per_cell_1C_Ah": caps}
+
+    folder = root / meta["folders"][25]
+
+    if cell == "LGM50":
+        caps = []
+        for f in sorted(folder.glob("*_0p1C_*.csv")):
+            d = io.read_basytec(f)
+            if len(d) <= 100:
+                continue
+            dis = d[(d.I < -0.3) & (d.I > -0.7)]  # 0.1C = 0.5 A
+            if len(dis):
+                caps.append(float(dis.Ah.max() - dis.Ah.min()) if dis.Ah.notna().any() else np.nan)
+        return float(np.nanmedian(caps))
+
+    f = next(folder.glob("*C20*.csv"))
+    return slow_discharge_capacity(io.read_digatron(f), i_max_a=slow)
+
+
+def stage_capacity(caps, unit, t_nom, name, split):
+    # B5 capacity for one test
+    # Test stages use the capacity measured at the start of their own stage (only earlier information)
+    # Training and validation stages interpolate in time between the start of their stage and the next one,
+    # since capacity falls by up to 5 % within a stage (25 to 10 degC)
+    here = caps.get(f"{unit}|{t_nom}")
+    if here is None:
+        return float("nan")
+
+    k = TESLA_STAGES.index(t_nom)
+    nxt = caps.get(f"{unit}|{TESLA_STAGES[k + 1]}") if k + 1 < len(TESLA_STAGES) else None
+    t = file_time(name)
+    if split == "test" or nxt is None or t is None:
+        return here["Ah"]
+
+    t0, t1 = datetime.fromisoformat(here["start"]), datetime.fromisoformat(nxt["start"])
+    w = min(max((t - t0) / (t1 - t0), 0.0), 1.0)
+    return here["Ah"] + w * (nxt["Ah"] - here["Ah"])
+
+
+def test_q_ref(q_ref, cell, unit, t_nom, name, split):
+    # One capacity for this test (B5: per stage, B4: the median of its dict)
+    if isinstance(q_ref, dict) and cell == "Tesla2170":
+        return stage_capacity(q_ref, unit, t_nom, name, split)
+    if isinstance(q_ref, dict):
+        return q_ref["Ah"]
+    return q_ref
