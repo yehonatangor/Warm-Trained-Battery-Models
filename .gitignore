@@ -1,0 +1,20 @@
+# Data and outputs
+# Raw data is downloaded separately (see README)
+data/
+results/
+*.zip
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Build
+*.egg-info/
+build/
+dist/
+
+# Editor
+.vscode/

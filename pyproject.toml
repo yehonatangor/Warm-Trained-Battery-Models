@@ -1,0 +1,45 @@
+[build-system]
+requires = ["uv_build>=0.12.20,<0.13.0"]
+build-backend = "uv_build"
+
+[project]
+name = "fastcharge"
+version = "1.0.0"
+description = "Warm-trained battery models: predicting lithium-ion cell voltage in Canadian winters"
+readme = "README.md"
+authors = [
+    { name = "Yehonatan Gor" },
+]
+requires-python = ">=3.12"
+dependencies = [
+    "matplotlib>=3.11.2",
+    "numba>=0.60",
+    "numpy>=2.5.3",
+    "openpyxl>=3.1.5",
+    "pandas>=3.0.6",
+    "pyarrow>=25.0.1",
+    "scipy>=1.15",
+    "seaborn>=0.13.2",
+]
+
+[project.optional-dependencies]
+lstm = ["torch>=2.6"]
+sim = ["pybamm>=26.9.0.0"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+
+# cu126 wheels for GPU LSTM training on Windows
+# explicit = true ensures only torch pulls from here
+[[tool.uv.index]]
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu126", marker = "sys_platform == 'win32'" }]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
