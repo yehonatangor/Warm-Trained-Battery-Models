@@ -14,7 +14,7 @@ import json
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))  # runs without installing the package
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from warmtrained import config as cfg
 from warmtrained.plotting import (CELL_STYLE, COL1, COL2, LABEL, MODEL_STYLE, fig_legend, heatmap,  # Agg first
@@ -96,7 +96,7 @@ def fig_hypotheses():
     h = h[(h.status == "ok") & (h.block == 10)]
     name = {"H1": "H1 SINDy beats ECM", "H2": "H2 Butler-Volmer terms help", "H3": "H3 ECM beats LSTM",
             "H4": "H4 Two-process law beats one energy"}
-    piv = {v: h.pivot(index="hypothesis", columns="cell", values=v)[HYP_CELLS]
+    piv = {v: h.pivot(index="hypothesis", columns="cell", values=v)[[c for c in HYP_CELLS if c in h.cell.unique()]]
            for v in ("share", "required", "wins", "files")}
     share = piv["share"]
     text = share.copy().astype(object)

@@ -1,5 +1,5 @@
 """
-Fit the Arrhenius SINDy model for each cell type, started from its single-E ECM, then score it with the ARX harness,
+Fit the Arrhenius SINDy model for each cell type, started from its single-E ECM, then score it with the harness,
 test data are never loaded here, run scripts/run_ecm.py first
 
 Variants:
@@ -15,7 +15,7 @@ import sys
 import time
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))  # runs without installing the package
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 import pandas as pd
 

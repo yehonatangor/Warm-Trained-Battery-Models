@@ -27,7 +27,6 @@ MIN_PIECE_ROWS = 10  # shorter pieces are skipped in the fit
 
 
 # Helpers
-
 def logit(a):
     return np.log(a / (1 - a))
 
@@ -138,7 +137,7 @@ class ARXModel:
     def fit(self, df, verbose=0):
         # Fit both equations on the training table
         files, v_pieces, t_pieces = [], [], []
-        for piece, g in df.groupby("piece", sort=False):
+        for _, g in df.groupby("piece", sort=False):
             g = g.reset_index(drop=True)
             if len(g) < MIN_PIECE_ROWS:
                 continue

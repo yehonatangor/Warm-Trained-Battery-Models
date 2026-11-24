@@ -1,5 +1,5 @@
 """
-Paired comparison of two models on one test file, and the win rule of the frozen hypotheses
+Paired comparison of two models on one test file, and the win rule
 Both models are scored on the same 20 min windows, d_k = RMSE_B,k - RMSE_A,k (positive when A is better)
 Windows overlap (20 min every 2 min), so the 95 % interval of the mean d comes from a moving-block bootstrap
 A wins when the whole interval is above zero (files with at least MIN_WINDOWS windows),

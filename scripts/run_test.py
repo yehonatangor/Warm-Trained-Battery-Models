@@ -27,8 +27,8 @@ import datetime as dt
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))  # runs without installing the package
-sys.path.insert(0, str(Path(__file__).resolve().parent))  # for run_sindy_ensemble
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import numpy as np
 import pandas as pd

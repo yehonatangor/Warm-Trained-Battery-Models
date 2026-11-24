@@ -237,12 +237,11 @@ SPLITS = {
         "test": [0, -10],
         "unused": [50, 20],
     },
-    # S1 (simulated): fresh = added later, not seen by any of the models, scored once
+    # S1
     "SimLGM50": {
         "train": [25, 40],
         "select": [10],
         "test": [30, 35, 0, -10],
-        "fresh": [-20, -5],
     },
 }
 

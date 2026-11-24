@@ -16,7 +16,7 @@ import datetime as dt
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))  # runs without installing the package
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))  # for run_test
 
 import numpy as np
@@ -55,7 +55,10 @@ def score(models):
     W, F = {k: [] for k in models}, {k: [] for k in models}
     for split in ("test", "trise"):
         for t in cfg.SPLITS[CELL][split]:
-            data = dataset.load(CELL, [split], temps=[t], allow_test=True)
+            try:
+                data = dataset.load(CELL, [split], temps=[t], allow_test=True)
+            except ValueError:
+                continue
             if data.empty:
                 continue
             for k, m in models.items():

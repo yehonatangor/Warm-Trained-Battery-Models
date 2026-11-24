@@ -3,10 +3,6 @@ Independent checks on the cleaned data, run after scripts/clean_dataset.py
 Each check prints PASS or FAIL with the number it measured
 The checks recompute quantities from the raw logs or from the data owners' own columns,
 so they do not just repeat the cleaning code
-
-Usage:
-    python scripts/verify_cleaning.py              (all cells)
-    python scripts/verify_cleaning.py Tesla2170    (one cell)
 """
 
 import hashlib
@@ -14,7 +10,7 @@ import sys
 from functools import lru_cache
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))  # runs without installing the package
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 import numpy as np
 import pandas as pd

@@ -4,7 +4,7 @@ LSTM black-box model with the same inputs and window protocol as the other model
 Inputs per 1 s step:
     C-rate I/Q, SOC, ambient temperature, T_ref theta_amb, Arrhenius-scaled C-rate (I/Q) exp(-E0 theta_amb / R_g)
     (E0 from the single-E ECM, the same temperature prior SINDy gets), and three warm-up channels:
-    measured V - U_oc(SOC), measured T - T_amb, and a flag, 1 where those are given, 0 elsewhere (where they are 0)
+    measured V - U_oc(SOC), measured T - T_amb, and a flag, 1 where those are given, 0 elsewhere
 Outputs: overpotential and temperature rise, V = U_oc(SOC) + eta, T = T_amb + dT, shared 25 degC OCV curve
 Surface temperature is predicted, never an input
 

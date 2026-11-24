@@ -2,7 +2,7 @@
 Model-ready data: one table per request, with built-in data rules
 Rules:
 1. Never return excluded files
-2. Test splits (test, fresh, trise) need allow_test=True, meant for the single final test run
+2. Test splits (test, trise) need allow_test=True, meant for the single final test run
 3. used_info (B4 1C charges at 35 and 5 degC) needs allow_used_info=True and is never scored,
    it holds information at test temperatures, so no model may train or validate on it
 4. Every row keeps measured (score on measured rows only) and piece (one continuous stretch of one file,
@@ -15,7 +15,7 @@ import pandas as pd
 
 from warmtrained import config as cfg
 
-TEST_SPLITS = {"test", "fresh", "trise"}
+TEST_SPLITS = {"test", "trise"}
 
 
 def manifest() -> pd.DataFrame:

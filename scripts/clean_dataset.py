@@ -2,11 +2,6 @@
 Clean every raw test: validity rules, late-logged step starts, set-point, soak and warm-up rules,
 SOC, one 1 s grid and ambient temperature
 Writes one Parquet file per test, the manifest (one row per test) and the reference capacities
-
-Usage:
-    python scripts/clean_dataset.py                            (all cells)
-    python scripts/clean_dataset.py Samsung30T                 (one cell)
-    python scripts/clean_dataset.py Tesla2170 --temps 40 25    (some temperatures of one cell)
 """
 
 import hashlib
@@ -17,7 +12,7 @@ import time
 import traceback
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))  # runs without installing the package
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 import numpy as np
 import pandas as pd

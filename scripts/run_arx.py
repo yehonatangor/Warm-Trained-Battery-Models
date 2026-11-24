@@ -1,21 +1,13 @@
 """
 Fit the 25 degC OCV curve and the ARX floor model for each cell type on its training split,
 then score it on the training, validation and held-out-profile splits, test data are never loaded here
-
-Usage:
-    python scripts/run_arx.py                      (all cells)
-    python scripts/run_arx.py Samsung30T LGHG2     (some cells)
-
-Output:
-    results/arx/<cell>/ocv.json, arx_params.json, windows.parquet, freerun.csv, by_file.csv
-    results/arx/summary.csv (one row per cell, split and temperature)
 """
 
 import sys
 import time
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))  # runs without installing the package
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 import pandas as pd
 

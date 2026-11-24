@@ -9,7 +9,7 @@ Two overview figures of the cleaned, usable data, all splits including test (cou
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))  # runs without installing the package
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from warmtrained import config as cfg
 from warmtrained.plotting import CMAP, COL2, LABEL, SPLIT_STYLE, fig_legend  # Agg first

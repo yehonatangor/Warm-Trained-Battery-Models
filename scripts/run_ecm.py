@@ -1,5 +1,5 @@
 """
-Fit the Arrhenius ECM variants for each cell type, then score them with the ARX harness, test data are never loaded here
+Fit the Arrhenius ECM variants for each cell type, then score them with the harness, test data are never loaded here
 The 25 degC OCV curve is the one run_arx.py saved, fitted again with the same recipe if missing
 
 Variants:
@@ -16,7 +16,7 @@ import sys
 import time
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))  # runs without installing the package
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 import pandas as pd
 
