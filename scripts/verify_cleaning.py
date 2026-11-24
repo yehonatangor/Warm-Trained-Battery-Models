@@ -200,7 +200,7 @@ def check_charge_conservation(usable):
 def check_b4_owner_soc(u):
     # 3a. B4 drive-cycle charge against the TU Berlin preprocessed files (owners' coulomb count)
     # Our Q_ref differs from theirs, so the charge removed is compared, which does not depend on the capacity
-    root = cfg.DATA_RAW / "tuberlin_m50lt/extracted/2_preprocessed"
+    root = cfg.DATA_RAW / "tuberlin_m50lt/Lithium-Ion Battery Drive Cycle Dataset/2_preprocessed"
     worst, n = 0.0, 0
     for _, r in u[~u.type.str.startswith("Charge")].iterrows():
         f = next(root.glob(f"JY_SOC_{r.T_nominal}deg/*_{r.type}_{r.T_nominal}deg.csv"))

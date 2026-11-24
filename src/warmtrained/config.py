@@ -64,7 +64,7 @@ CELLS = {
     # A CV end counts as full at every temperature
     "TUBerlinM50LT": {
         "label": "B4",
-        "root": "tuberlin_m50lt/extracted/0_raw",
+        "root": "tuberlin_m50lt/Lithium-Ion Battery Drive Cycle Dataset/0_raw",
         "folders": {
             45: "JY_SOC_45deg",
             35: "JY_SOC_35deg",
@@ -107,7 +107,7 @@ CELLS = {
         "label": "B6",
         "root": "panasonic18650pf/Panasonic 18650PF Data",
         "folders": {
-            25: "Panasonic 18650PF Data/25degC",
+            25: "25degC",
             10: "10degC",
             0: "0degC",
             -10: "-10degC",
@@ -124,7 +124,7 @@ CELLS = {
         "nominal_ah": 2.9,
         "format": "panasonic_mat",
         "start_full_under_load": True,  # drive files start under load right after full charge
-        "q_ref_glob": "Panasonic 18650PF Data/25degC/C20*/*C20*.mat",
+        "q_ref_glob": "25degC/C20*/*C20*.mat",
     },
     # B7: McMaster, Turnigy Graphene 5 Ah (Digatron CSV)
     # No drive cycles published at -20 degC
