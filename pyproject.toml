@@ -29,6 +29,7 @@ explore = ["scikit-learn>=1.5", "shap>=0.46"]
 
 [dependency-groups]
 dev = [
+    "ipykernel>=7.4.0",
     "pytest>=8.0",
 ]
 

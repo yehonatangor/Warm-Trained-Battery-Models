@@ -1,5 +1,5 @@
 """
-Train the LSTM for each cell type, then score it with the ARX harness, test data are never loaded here
+Train the LSTM for each cell type, then score it with the harness, test data are never loaded here
 Grid of four sizes (hidden units x layers) with seed 0, chosen by the early-stopping loss on the selection
 temperature (B2: one held-out training cell), then the chosen size retrained with seeds 1 to 4
 All five seeds are scored so the spread across seeds can be reported

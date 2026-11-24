@@ -1,6 +1,6 @@
 """
 Winter exposure per model: weight the saved error-vs-temperature curves by how often each air
-temperature occurs in hourly winter weather in Edmonton, Toronto and London ON. Nothing is refitted.
+temperature occurs in hourly winter weather in Edmonton, Toronto and London ON. Nothing is refitted
 
 Per city, model and cell (B1, B3, B5, tested down to -20 °C):
   - share of winter hours with 20 min window error above ERR_LIMIT
@@ -8,10 +8,8 @@ Per city, model and cell (B1, B3, B5, tested down to -20 °C):
   - share of hours colder than the coldest tested temperature (counted apart, never extrapolated)
 
 Cell temperature != air temperature, so two cases: offset 0 K (cold start after overnight parking)
-and 10 K (pack warmed by driving or preheating).
-Curves are interpolated linearly in log error and held at the end values outside the scored range.
-
-Output: results/winter/winter_exposure.csv, results/figures/results_winter.png, winter_temperatures.png
+and 10 K (pack warmed by driving or preheating)
+Curves are interpolated linearly in log error and held at the end values outside the scored range
 """
 
 import sys

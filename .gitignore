@@ -2,10 +2,6 @@
 # Raw data is downloaded separately (see README)
 /data/
 
-# Built from docs/pipeline.tex
-docs/*.pdf
-docs/*.png
-
 results/
 *.zip
 

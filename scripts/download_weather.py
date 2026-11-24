@@ -1,8 +1,8 @@
 """
 Download hourly ECCC weather (Dec-Mar, winters 2015/16 to 2024/25) for three stations
-and join it into data/raw/weather/weather_winters_2015_2025.csv.
-Finished monthly files are skipped, so a stopped run can be restarted.
-Never add an empty time= parameter to the URL: the server then returns empty rows.
+and join it into data/raw/weather/weather_winters_2015_2025.csv
+Finished monthly files are skipped, so a stopped run can be restarted
+Never add an empty time= parameter to the URL: the server then returns empty rows
 """
 
 import sys
