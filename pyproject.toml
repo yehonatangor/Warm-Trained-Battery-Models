@@ -25,6 +25,7 @@ dependencies = [
 [project.optional-dependencies]
 lstm = ["torch>=2.6"]
 sim = ["pybamm>=26.9.0.0"]
+explore = ["scikit-learn>=1.5", "shap>=0.46"]
 
 [dependency-groups]
 dev = [
