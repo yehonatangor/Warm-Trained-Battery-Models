@@ -1,0 +1,25 @@
+n_fits,equation,term,inclusion
+100,output,R0_f0I,0.99
+100,output,R0_f0I_z,0.72
+100,output,R0_f0I_z2,1.0
+100,output,BV_0.5,0.24
+100,output,BV_1,0.1
+100,output,BV_2,0.07
+100,output,BV_4,0.02
+100,output,offset,1.0
+100,output,theta_shift,0.68
+100,branch1,a_rate,1.0
+100,branch1,c_absI,1.0
+100,branch1,d_z_rate,1.0
+100,branch1,b_input,1.0
+100,branch1,e_z_input,0.89
+100,branch2,a_rate,1.0
+100,branch2,c_absI,0.99
+100,branch2,d_z_rate,0.71
+100,branch2,b_input,1.0
+100,branch2,e_z_input,0.48
+100,thermal,h0_heat,1.0
+100,thermal,h1_loss,1.0
+100,thermal,h2_I2,0.43
+100,thermal,h3_absI,0.78
+100,output,BV group,0.4

@@ -1,9 +1,29 @@
 # Data and outputs
 # Raw data is downloaded separately (see README)
 /data/
-
-results/
 *.zip
+
+# Results: only the small text tables the notebook and plot_results.py need
+results/**
+!results/**/
+!results/arx/summary.csv
+!results/ecm/summary.csv
+!results/sindy/summary.csv
+!results/lstm/summary.csv
+!results/test/summary.csv
+!results/test/hypotheses.csv
+!results/panasonic/summary.csv
+!results/panasonic/claims.csv
+!results/winter/winter_exposure.csv
+!results/exploratory/shap/shap_summary.csv
+!results/exploratory/conformal/conformal.csv
+!results/timings.csv
+!results/sindy/equations_full.md
+!results/sindy/equations_no_bv.md
+!results/sindy/*/full/sindy_params.json
+!results/sindy_ensemble/*/band.csv
+!results/sindy_ensemble/*/inclusion.csv
+!results/test/*/ensemble_band.csv
 
 # Python
 .venv/

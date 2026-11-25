@@ -1,0 +1,3 @@
+claim,model_a,model_b,block,files,wins,share,required,supported
+P3,ecm,lstm_median,10,5,5,1.0,0.75,True
+P3,ecm,lstm_median,20,5,5,1.0,0.75,True
