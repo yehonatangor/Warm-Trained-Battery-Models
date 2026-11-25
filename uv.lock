@@ -2471,7 +2471,6 @@ dependencies = [
 
 [package.optional-dependencies]
 explore = [
-    { name = "scikit-learn" },
     { name = "shap" },
 ]
 lstm = [
@@ -2497,7 +2496,6 @@ requires-dist = [
     { name = "pandas", specifier = ">=3.0.6" },
     { name = "pyarrow", specifier = ">=25.0.1" },
     { name = "pybamm", marker = "extra == 'sim'", specifier = ">=26.9.0.0" },
-    { name = "scikit-learn", marker = "extra == 'explore'", specifier = ">=1.5" },
     { name = "scipy", specifier = ">=1.15" },
     { name = "seaborn", specifier = ">=0.13.2" },
     { name = "shap", marker = "extra == 'explore'", specifier = ">=0.46" },

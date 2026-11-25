@@ -99,7 +99,7 @@ def plot_exposure(e):
             ax.set_title(f"{city}, air + {off} K\n{beyond:.0%} of hours colder than tested")
             ax.set_xticks(x, MODELS, rotation=35, ha="right")
             ax.grid(False, axis="x")
-        axes[i, 0].set_ylabel(f"Winter hours over {ERR_LIMIT:.0f} mV")
+        axes[i, 0].set_ylabel(f"Share of winter hours over {ERR_LIMIT:.0f} mV")
 
     fig_legend(fig, axes.flat, ncol=len(CELLS))
     fig.savefig(FIG / "results_winter.png")
@@ -112,11 +112,11 @@ def plot_temperatures(weather):
     for city, look in CITY_LOOK.items():
         hist, edges = np.histogram(weather.loc[weather.city == city, "T"], bins=bins, density=True)
         ax.step(edges[:-1], hist, where="post", label=city, **look)
-    ax.axvspan(-20, 26, color="0.93", lw=0, zorder=0)  # tested range
+    ax.axvspan(-20, 26, color="0.93", lw=0, zorder=0, label="Tested range")
     ax.set_xlim(-46, 26)
     ax.set_xlabel("Hourly air temperature (°C)")
     ax.set_ylabel("Share of winter hours per °C")
-    fig_legend(fig, [ax], ncol=3)
+    fig_legend(fig, [ax], ncol=2)
     fig.savefig(FIG / "winter_temperatures.png")
     plt.close(fig)
 

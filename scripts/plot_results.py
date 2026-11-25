@@ -134,7 +134,7 @@ def fig_band():
         axes[0].plot(c.T_nominal, c.win_coverage, label=LABEL[cell], **CELL_STYLE[cell])
         axes[1].plot(c.T_nominal, c.win_width_mV, label=LABEL[cell], **CELL_STYLE[cell])
     axes[0].axhline(0.9, color="k", ls="--", lw=0.6)
-    axes[0].text(axes[0].get_xlim()[0], 0.92, " nominal 90 %")
+    axes[0].text(0.98, 0.91, "nominal 90 %", transform=axes[0].get_yaxis_transform(), ha="right", va="bottom")
     axes[0].set_ylim(0, 1)
     axes[0].set_ylabel("Coverage (fraction)")
     log_if_wide(axes[1], g.win_width_mV)
@@ -160,9 +160,9 @@ def fig_sindy_terms():
         if inc.exists():
             d = pd.read_csv(inc)
             kept = {(r.equation, r.term): r.inclusion for r in d.itertuples() if (r.equation, r.term) in kept}
-            cols[f"{LABEL[cell]}\n({int(d.n_fits.iat[0])} refits)"] = kept
+            cols[f"{LABEL[cell].replace(' ', chr(10), 1)}\n({int(d.n_fits.iat[0])} refits)"] = kept
         else:
-            cols[f"{LABEL[cell]}\n(single fit)"] = kept
+            cols[f"{LABEL[cell].replace(' ', chr(10), 1)}\n(single fit)"] = kept
     if not cols:
         return
     m = pd.DataFrame(cols)

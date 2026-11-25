@@ -48,15 +48,11 @@ CORE = [
     ("9", "download_weather.py", [], None),
     ("9", "winter_exposure.py", [], None),
 ]
+
 EXPLORATORY = [
     ("10", "lstm_shap.py", [], None),
-    ("10", "lstm_coverage.py", [], None),
     ("10", "conformal_coverage.py", [], None),
-    ("10", "ecm_neural.py", [], None),
-    ("10", "ecm_adaptation.py", [], None),
-    ("10", "eis_ecm.py", [], None),
 ]
-
 
 def step_key(step):
     # "2b" -> (2, "b"), so steps sort numerically; bad input raises ValueError
