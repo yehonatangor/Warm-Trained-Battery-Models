@@ -30,7 +30,7 @@ ENS_CELLS = ["Samsung30T", "LGHG2", "Tesla2170", "TUBerlinM50LT", "LGM50"]
 
 # (step, script, args, cells to run one at a time or None)
 CORE = [
-    ("1", "clean_dataset.py", [], None),
+    ("1", "clean_dataset.py", [], list(cfg.CELLS)),
     ("2a", "verify_cleaning.py", [], None),
     ("2b", "simulate_known_truth.py", [], None),
     ("3", "run_arx.py", [], MODEL_CELLS),
